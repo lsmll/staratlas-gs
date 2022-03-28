@@ -1,4 +1,6 @@
 #include <core/scheduler.hh>
+
+#include <chrono>
 #include <algorithm>
 
 namespace wasmtm {
@@ -112,6 +114,13 @@ bool SchedulerBlock::initialize(std::span<u8> wasm_bytes, size_t pages) {
                 raw_Q->push(nid);
             }
         }
+    });
+
+    auto start = std::chrono::high_resolution_clock::now();
+    runtime->import_func("env", "clk_m", [&start](wasm_params_t params) {
+        auto end = std::chrono::high_resolution_clock::now();
+        u64 r = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+        wasm_funcall_push(params, r);
     });
 
     auto instance = runtime->instantiate(wasm_bytes, pages);

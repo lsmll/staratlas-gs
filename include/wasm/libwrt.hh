@@ -32,15 +32,6 @@
 namespace wasmtm {
 
 /**
- * @brief Host Functions
- * 
- */
-WASM_IMPORT(env, console_log);
-WASM_IMPORT(env, get_node);
-WASM_IMPORT(env, select_node);
-WASM_IMPORT(env, extend_node);
-
-/**
  * @brief 链接到UDF函数
  * 
  * @param nid 
@@ -89,6 +80,16 @@ public:
 };
 
 /**
+ * @brief Host Functions
+ * 
+ */
+WASM_IMPORT(env, console_log);
+WASM_IMPORT(env, get_node);
+WASM_IMPORT(env, select_node);
+WASM_IMPORT(env, extend_node);
+WASM_IMPORT(env, clk_m);
+
+/**
  * @brief 向终端输出日志，用于调试
  * 
  * @param s 
@@ -120,6 +121,13 @@ void select_node(std::span<nid_t> nids);
  */
 void extend_node(nid_t nid);
 void extend_node(std::span<nid_t> nids);
+
+/**
+ * @brief 导入外部时钟，毫秒级
+ * 
+ * @return u64 
+ */
+u64 clk_m();
 
 }
 /**

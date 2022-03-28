@@ -82,7 +82,7 @@ public:
      * @param storage 后端存储访问器
      * @param distinct 调度队列是否去重
      */
-    SchedulerBlock(SchedulerQueue::Type type, std::shared_ptr<Storage> storage, bool distinct = true);
+    SchedulerBlock(SchedulerQueue::Type type, std::shared_ptr<Storage> storage, bool distinct = false);
     
     /**
      * @brief 初始化WASM容器

@@ -46,6 +46,13 @@ void extend_node(std::span<nid_t> nids) {
     WASM_IMPORT_CALL(extend_node, params);
 }
 
+u64 clk_m() {
+    std::array<wasm_wrap_t, 1> params;
+    WASM_IMPORT_CALL(clk_m, params);
+    auto [r] = wasm_funcall_pull<u64>(params);
+    return r;
+}
+
 }
 
 extern "C" {
