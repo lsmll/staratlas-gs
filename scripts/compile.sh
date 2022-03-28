@@ -15,7 +15,6 @@ CFLAGS="-O3 --std=c++17 \
 LDFLAGS="-lm \
 -L$ROOT/lib -lwrt \
 -Wl,--no-entry \
--Wl,--import-memory \
 -Wl,--strip-all \
 -Wl,--allow-undefined \
 -Wl,--export=__wasm_call_ctors \

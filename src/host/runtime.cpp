@@ -52,7 +52,7 @@ wasm_size_t Runtime::malloc(wasm_size_t sz) {
         auto v = r.ok();
         if (!v.empty()) return v.front().i32();
     } else {
-        std::cerr << "wasi_malloc:\n" << r.err().message() << std::endl;
+        std::cerr << "wasi_malloc: " << r.err().message() << std::endl;
     }
     return 0;
 }
@@ -60,21 +60,21 @@ wasm_size_t Runtime::malloc(wasm_size_t sz) {
 void Runtime::call_ctors() {
     auto r = this->wasm_ctors->call(this->store, {});
     if (!r) {
-        std::cerr << "wasm_ctors:\n" << r.err().message() << std::endl;
+        std::cerr << "wasm_ctors: " << r.err().message() << std::endl;
     }
 }
 
 void Runtime::call_dtors() {
     auto r = this->wasm_dtors->call(this->store, {});
     if (!r) {
-        std::cerr << "wasm_dtors:\n" << r.err().message() << std::endl;
+        std::cerr << "wasm_dtors: " << r.err().message() << std::endl;
     }
 }
 
 void Runtime::free(wasm_size_t ptr) {
     auto r = this->wasi_free->call(this->store, {u2i(ptr)});
     if (!r) {
-        std::cerr << "wasi_free:\n" << r.err().message() << std::endl;
+        std::cerr << "wasi_free: " << r.err().message() << std::endl;
     }
 }
 
@@ -84,7 +84,7 @@ bool Runtime::filter(nid_t nid) {
         auto v = r.ok();
         if (!v.empty()) return v.front().i32() != 0;   
     } else {
-        std::cerr << "export_filter:\n" << r.err().message() << std::endl;
+        std::cerr << "wasm_filter: " << r.err().message() << std::endl;
     }
     return false;
 }
@@ -92,7 +92,7 @@ bool Runtime::filter(nid_t nid) {
 void Runtime::finish() {
     auto r = this->wasm_finish->call(this->store, {});
     if (!r) {
-        std::cerr << "export_flush:\n" << r.err().message() << std::endl;
+        std::cerr << "wasm_finish: " << r.err().message() << std::endl;
     }
 }
 
@@ -123,20 +123,20 @@ wasmtime::Result<std::monostate> Runtime::instantiate(std::string_view filename,
 
 wasmtime::Result<std::monostate> Runtime::instantiate(std::span<uint8_t> wasm_bytes, size_t pages) {
     // import memory
-    {
-        wasmtime::MemoryType type(pages);
-        auto r0 = wasmtime::Memory::create(this->store, type);
-        if (!r0) {
-            return r0.err();
-        }
+    // {
+    //     wasmtime::MemoryType type(pages);
+    //     auto r0 = wasmtime::Memory::create(this->store, type);
+    //     if (!r0) {
+    //         return r0.err();
+    //     }
 
-        this->memory = std::make_unique<wasmtime::Memory>(r0.ok());
+    //     this->memory = std::make_unique<wasmtime::Memory>(r0.ok());
         
-        auto r1 = this->linker.define("env", "memory", *this->memory);
-        if (!r1) {
-            return r1.err();
-        }
-    }
+    //     auto r1 = this->linker.define("env", "memory", *this->memory);
+    //     if (!r1) {
+    //         return r1.err();
+    //     }
+    // }
 
     // module
     {
@@ -176,6 +176,23 @@ wasmtime::Result<std::monostate> Runtime::instantiate(std::span<uint8_t> wasm_by
         auto r = this->linker.define_instance(this->store, "main", *this->instance);
         if (!r) {
             return r.err();
+        }
+    }
+
+    // export memory
+    {
+        auto r0 = this->linker.get(this->store, "main", "memory");
+        if (!r0) {
+            return wasmtime::Error("memory export is null");
+        } else {
+            this->memory = std::make_unique<wasmtime::Memory>(std::get<wasmtime::Memory>(*r0));
+
+            size_t current_pages = this->memory->size(this->store);
+            size_t delta_pages = current_pages < pages ? (pages - current_pages) : 0;
+            auto r1 = this->memory->grow(this->store, delta_pages);
+            if (!r1) {
+                return wasmtime::Error(r1.err().message());
+            }
         }
     }
 

@@ -16,19 +16,18 @@
 #include <wasm/funcall.hh>
 #include <relations_generated.h>
 
+/**
+ * @todo 通过宏开关WASM_ON来控制编译器自动补全和代码生成
+ * 
+ */
 #define WASM_DECLARE(name, vars) \
     struct vars name;
 
-#define WASM_FILTER(code) \
-    bool wasmtm::filter_impl(u64 nid) { \
-        code \
-        return false; \
-    }
+#define WASM_FILTER \
+    bool wasmtm::filter_impl(nid_t nid)
 
-#define WASM_FINISH(code) \
-    void wasmtm::finish_impl() { \
-        code \
-    }
+#define WASM_FINISH \
+    void wasmtm::finish_impl()
 
 namespace wasmtm {
 
@@ -48,7 +47,7 @@ WASM_IMPORT(env, extend_node);
  * @return true 
  * @return false 
  */
-bool filter_impl(u64 nid);
+bool filter_impl(nid_t nid);
 
 /**
  * @brief 单次采样后续处理
@@ -104,23 +103,23 @@ void console_log(const std::string_view s);
  * @param nid 
  * @return DataBuffer 
  */
-DataBuffer get_node(u64 nid);
+DataBuffer get_node(nid_t nid);
 
 /**
  * @brief 选中节点，作为结果返回
  * 
  * @param nid 
  */
-void select_node(u64 nid);
-void select_node(std::span<u64> nids);
+void select_node(nid_t nid);
+void select_node(std::span<nid_t> nids);
 
 /**
  * @brief 将节点添加到候选队列里
  * 
  * @param nid 
  */
-void extend_node(u64 nid);
-void extend_node(std::span<u64> nids);
+void extend_node(nid_t nid);
+void extend_node(std::span<nid_t> nids);
 
 }
 /**

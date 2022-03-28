@@ -5,7 +5,7 @@ WASM_DECLARE(g, {
     std::string name = "name";
 })
 
-WASM_FILTER({
+WASM_FILTER{
     auto node = wasm::get_node(nid);
 
     std::stringstream ss;
@@ -34,6 +34,6 @@ WASM_FILTER({
     // wasm::console_log(g.name);
     wasm::extend_node(12);
     return true;
-})
+}
 
-WASM_FINISH({})
+WASM_FINISH{}

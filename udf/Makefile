@@ -5,8 +5,8 @@ CFLAGS += -I/home/hwj/.local/include
 LDFLAGS := -lm
 LDFLAGS += -L../lib -lwrt
 LDFLAGS += -Wl,--no-entry
-LDFLAGS += -Wl,--import-memory
-LDFLAGS += -Wl,--strip-all
+# LDFLAGS += -Wl,--import-memory
+# LDFLAGS += -Wl,--strip-all
 LDFLAGS += -Wl,--allow-undefined
 LDFLAGS += -Wl,--export=__wasm_call_ctors
 LDFLAGS += -Wl,--export=__wasm_call_dtors
