@@ -133,6 +133,21 @@ public:
      * @return std::vector<nid_t> 
      */
     std::vector<nid_t> selected();
+
+    /**
+     * @brief poll + finish
+     * 
+     */
+    void join();
+
+    /**
+     * @brief join + clear + selected，无状态采样
+     * 
+     * @param s 起始节点
+     * @param p 优先级
+     * @return std::vector<nid_t> 
+     */
+    std::vector<nid_t> sample(nid_t s, f64 p = 0.0);
     
     inline operator bool() const {
         return static_cast<bool>(this->_wasm);

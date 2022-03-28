@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 
 #include <rand_graph.hpp>
 #include <core/scheduler.hh>
@@ -43,10 +44,10 @@ int main(int argc, char* argv[]) {
         exit(1);
     }
 
-    std::cout << "@ generating random graph for testing." << std::endl;
+    std::cout << "@ generating random graph for testing" << std::endl;
     auto graph = gen_random_graph(1000, 20);
 
-    std::cout << "@ creating storage." << std::endl;
+    std::cout << "@ creating storage" << std::endl;
     auto store = std::make_shared<Storage>([&](nid_t nid) {
         auto it = graph.find(nid);
         if (it != graph.end()) {
@@ -56,7 +57,7 @@ int main(int argc, char* argv[]) {
         }
     });
 
-    std::cout << "@ creating scheduler." << std::endl;
+    std::cout << "@ creating scheduler" << std::endl;
     SchedulerBlock a(SchedulerQueue::FIFO, store, true);
 
     if (!a.initialize({wasm_bytes.data(), wasm_bytes.size()})) {
@@ -64,26 +65,37 @@ int main(int argc, char* argv[]) {
         exit(1);
     }
 
-    for (nid_t s = 1; s <= 1; s ++) {
-        std::cout << "@ starting from node(" << s << ")" << std::endl;
-        a.push(s);
+    // for (nid_t s = 1; s <= 3; s ++) {
+    //     std::cout << "@ starting from node(" << s << ")" << std::endl;
+    //     a.push(s);
 
-        while(a.poll()) {
-            // std::cout << "@ scheduler queue is not empty." << std::endl;
-        }
+    //     while(a.poll()) {
+    //         std::cout << "@ scheduler queue is not empty." << std::endl;
+    //     }
 
-        a.finish();
-        std::cout << "@ finished" << std::endl;
+    //     a.finish();
+    //     std::cout << "@ finished" << std::endl;
 
-        auto selected = a.selected();
-        std::cout << "> ";
+    //     auto selected = a.selected();
+    //     std::cout << "> ";
+    //     for (size_t i=0; i<selected.size(); i++) {
+    //         std::cout << selected[i] << " ";
+    //     }
+    //     std::cout << std::endl;
+
+    //     std::cout << "@ cleaned" << std::endl;
+    //     a.clear();
+    // }
+
+    for (nid_t s = 1; s <= 3; s ++) {
+        auto selected = a.sample(s);
+        std::sort(selected.begin(), selected.end());
+        
+        std::cout << s << "> ";
         for (size_t i=0; i<selected.size(); i++) {
             std::cout << selected[i] << " ";
         }
         std::cout << std::endl;
-
-        std::cout << "@ cleaned" << std::endl;
-        a.clear();
     }
 
     return 0;

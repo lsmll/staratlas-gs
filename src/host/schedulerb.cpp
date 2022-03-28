@@ -43,6 +43,22 @@ std::vector<nid_t> SchedulerBlock::selected() {
     return nids;
 }
 
+void SchedulerBlock::join() {
+    while (this->poll());
+    this->finish();
+}
+
+std::vector<nid_t> SchedulerBlock::sample(nid_t s, f64 p) {
+    this->clear();
+    this->push(s, p);
+    this->join();
+
+    std::vector<nid_t> selected = this->selected();
+    this->clear();
+
+    return selected;
+}
+
 bool SchedulerBlock::poll() {
     if (!this->_wasm) {
         return false;

@@ -16,14 +16,6 @@
 
 namespace wasmtm {
 
-// /**
-//  * @brief 初始化容器时设置调度队列属性
-//  * 
-//  */
-// struct DISTINCT {
-//     DISTINCT(bool flag);
-// };
-
 /**
  * @brief 向终端输出日志，用于调试
  * 
