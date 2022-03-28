@@ -4,6 +4,8 @@
 #include <random>
 #include <unordered_map>
 
+// wasm::DISTINCT _(false);
+
 struct A {
     size_t sst; // 到起点最短路
     size_t cnt; // 被访问次数
