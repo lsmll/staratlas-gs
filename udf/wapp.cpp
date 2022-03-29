@@ -1,4 +1,6 @@
 #include <wasm/libwrt.hh>
+
+WASM_BEGIN
 #include <sstream>
 
 // 数据读写案例
@@ -32,3 +34,5 @@ WASM_FILTER{
 }
 
 WASM_FINISH{}
+WASM_END
+

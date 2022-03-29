@@ -1,5 +1,7 @@
 #include <wasm/libwrt.hh>
 
+WASM_BEGIN
+
 #include <memory>
 #include <random>
 #include <unordered_map>
@@ -74,3 +76,5 @@ WASM_FINISH{
     // 重置全局变量，实现复用
     vis.clear();
 }
+
+WASM_END

@@ -25,6 +25,9 @@
 #define WASM_FINISH \
     void wasmtm::finish_impl()
 
+#define WASM_BEGIN
+#define WASM_END
+
 namespace wasmtm {
 
 /**
