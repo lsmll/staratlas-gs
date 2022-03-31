@@ -1,10 +1,10 @@
 CC = clang++
 CFLAGS := -O3 --std=c++17 -Wall -I../include
-CFLAGS += -I/home/hwj/.wasmtime/include
-CFLAGS += -I/home/hwj/.local/include
+CFLAGS += -I$(STARATLAS_SDK)/wasmtime/include
+CFLAGS += -I$(STARATLAS_SDK)/local/include
 
 LDFLAGS := -ldl -lm -lpthread
-LDFLAGS += -L/home/hwj/.wasmtime/lib -lwasmtime
+LDFLAGS += -L$(STARATLAS_SDK)/wasmtime/lib -lwasmtime
 LDFLAGS += -L../lib -lmrt
 
 SOURCES := $(shell find . -name "*.cpp")

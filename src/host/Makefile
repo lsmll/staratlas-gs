@@ -1,8 +1,8 @@
 CC = clang++
 AR = ar
 CFLAGS := -O3 --std=c++17 -Wall -I../../include
-CFLAGS += -I/home/hwj/.wasmtime/include
-CFLAGS += -I/home/hwj/.local/include
+CFLAGS += -I$(STARATLAS_SDK)/wasmtime/include
+CFLAGS += -I$(STARATLAS_SDK)/local/include
 
 SOURCES := $(shell find . -name "*.cpp")
 OBJECTS := $(patsubst %.cpp, %.o, $(SOURCES))

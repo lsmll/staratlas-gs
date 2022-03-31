@@ -1,6 +1,6 @@
-CC = /home/hwj/.opt/wasi-sdk-14.0/bin/clang++
+CC = $(STARATLAS_SDK)/wasi-sdk/bin/clang++
 CFLAGS := -O3 --std=c++17 -fno-exceptions -Wall -I../include
-CFLAGS += -I/home/hwj/.local/include
+CFLAGS += -I$(STARATLAS_SDK)/local/include
 
 LDFLAGS := -lm
 LDFLAGS += -L../lib -lwrt

@@ -5,8 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/include/**",
-                "~/.wasmtime/include/**",
-                "~/.local/include/**"
+                "~/staratlas-sdk/wasmtime/include/**",
+                "~/staratlas-sdk/local/include/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

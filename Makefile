@@ -1,3 +1,5 @@
+export STARATLAS_SDK ?= $(HOME)/staratlas-sdk
+
 all:
 	$(MAKE) -C ./src/
 	$(MAKE) -C ./test
