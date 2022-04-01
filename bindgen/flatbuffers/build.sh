@@ -6,7 +6,7 @@ cd `dirname $0`
 LIB="../../lib"
 rm -rf $LIB && mkdir $LIB
 
-CFLAGS="-O3 --std=c++17 -Wall -I$HOME/.local/include"
+CFLAGS="-O3 --std=c++17 -Wall -I${STARATLAS_SDK}/local/include"
 
 function build_host() {
     CC=clang++-10
@@ -20,7 +20,7 @@ function build_host() {
 }
 
 function build_wasm() {
-    WASI_SDK=$HOME/.opt/wasi-sdk-14.0
+    WASI_SDK=${STARATLAS_SDK}/wasi-sdk
     CC=$WASI_SDK/bin/clang++
     AR=$WASI_SDK/bin/ar
 
