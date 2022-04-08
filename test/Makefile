@@ -2,6 +2,7 @@ CC = clang++
 CFLAGS := -O3 --std=c++17 -Wall -I../include
 CFLAGS += -I$(STARATLAS_SDK)/wasmtime/include
 CFLAGS += -I$(STARATLAS_SDK)/local/include
+CFLAGS += -I./
 
 LDFLAGS := -ldl -lm -lpthread
 LDFLAGS += -L$(STARATLAS_SDK)/wasmtime/lib -lwasmtime
